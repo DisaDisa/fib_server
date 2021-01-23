@@ -1,14 +1,8 @@
 package main
 
-import (
-	"/net/http"
-	"fmt"
-)
+import httpServer "github.com/DisaDisa/fib_server.git/http_server"
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(w)
-}
-
-func handleRequests() {
+func main() {
+	httpServer.CreateServer()
 
 }
