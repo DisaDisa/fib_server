@@ -34,7 +34,7 @@ func fibHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		response = append(response, newVal)
 	}
-	println(int(time.Since(timeStart)))
+	fmt.Println(int(time.Since(timeStart)))
 	fmt.Fprint(w, response)
 }
 

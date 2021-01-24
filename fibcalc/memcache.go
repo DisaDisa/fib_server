@@ -1,7 +1,6 @@
 package fibcalc
 
 import (
-	"fmt"
 	"strconv"
 	"sync"
 
@@ -21,6 +20,8 @@ var (
 //CacheGet get singletone memcahce
 func CacheGet() *cache {
 	once.Do(func() {
+		var mycache cache
+		Cache = &mycache
 		Cache.CreateMemcache()
 	})
 	return Cache
@@ -45,14 +46,13 @@ func (cache *cache) CreateMemcache() {
 //GetValue return value from memcache if exists or error
 func (cache *cache) GetValue(x int) (int, error) {
 	fetchItem, err := cache.client.Get(strconv.Itoa(x))
-	if err != memcache.ErrCacheMiss {
-		if err != nil {
-			return -1, err
-		}
+	if err != nil {
+		//fmt.Println("Cache Miss")
+		return 0, err
 	}
 	val, err := strconv.Atoi(string(fetchItem.Value))
-	fmt.Println("Cache Hit")
-	return val, err
+	//fmt.Println("Cache Hit")
+	return val, nil
 }
 
 //SetValue sets index, value for memcache

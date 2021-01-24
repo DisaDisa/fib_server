@@ -12,7 +12,7 @@ func calcFib(x int) int {
 	defer close(ch)
 	go func() {
 		cache := CacheGet()
-		if val, err := cache.GetValue(x - 1); err != nil {
+		if val, err := cache.GetValue(x - 1); err == nil {
 			ch <- val
 		} else {
 			val := calcFib(x - 1)
@@ -23,12 +23,12 @@ func calcFib(x int) int {
 
 	go func() {
 		cache := CacheGet()
-		if val, err := cache.GetValue(x - 2); err != nil {
+		if val, err := cache.GetValue(x - 2); err == nil {
 			ch <- val
 		} else {
-			val := calcFib(x - 1)
+			val := calcFib(x - 2)
 			ch <- val
-			cache.SetValue(x-1, val)
+			cache.SetValue(x-2, val)
 		}
 	}()
 
