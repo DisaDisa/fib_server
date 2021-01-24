@@ -20,8 +20,7 @@ var (
 //CacheGet get singletone memcahce
 func CacheGet() *cache {
 	once.Do(func() {
-		var mycache cache
-		Cache = &mycache
+		Cache = new(cache)
 		Cache.CreateMemcache()
 	})
 	return Cache

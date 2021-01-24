@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package grpcservice;
+
+message Request {
+    string sample = 1;
+}
+
+message Response {
+    string response = 1;
+}
+
+
+service Service {
+    rpc Generate(Request) returns (Response) {}
+}
