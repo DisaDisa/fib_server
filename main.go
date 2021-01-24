@@ -1,8 +1,9 @@
 package main
 
-import httpServer "github.com/DisaDisa/fib_server.git/http_server"
+import (
+	"github.com/DisaDisa/fibServer.git/httpServer"
+)
 
 func main() {
 	httpServer.CreateServer()
-
 }
