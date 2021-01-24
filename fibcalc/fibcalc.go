@@ -1,4 +1,4 @@
-package fibCalc
+package fibcalc
 
 import (
 	"errors"

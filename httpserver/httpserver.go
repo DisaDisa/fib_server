@@ -1,4 +1,4 @@
-package httpServer
+package httpserver
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/DisaDisa/fib_server.git/fibCalc"
+	"github.com/DisaDisa/fib_server.git/fibcalc"
 	"github.com/gorilla/mux"
 )
 
@@ -28,7 +28,7 @@ func fibHandler(w http.ResponseWriter, r *http.Request) {
 	response := make([]int, 0, y-x+1)
 	timeStart := time.Now()
 	for i := x; i <= y; i++ {
-		newVal, err := fibCalc.GetFibNimber(i)
+		newVal, err := fibcalc.GetFibNimber(i)
 		if err != nil {
 			panic(err)
 		}
