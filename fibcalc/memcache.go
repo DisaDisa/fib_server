@@ -46,11 +46,9 @@ func (cache *cache) CreateMemcache() {
 func (cache *cache) GetValue(x int) (int, error) {
 	fetchItem, err := cache.client.Get(strconv.Itoa(x))
 	if err != nil {
-		//fmt.Println("Cache Miss")
 		return 0, err
 	}
 	val, err := strconv.Atoi(string(fetchItem.Value))
-	//fmt.Println("Cache Hit")
 	return val, nil
 }
 

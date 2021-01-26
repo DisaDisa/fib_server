@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/golang/protobuf v1.4.3
 	github.com/gorilla/mux v1.8.0
 	github.com/michaelbironneau/garbler v0.0.0-20180525195632-2018e2dc9c11

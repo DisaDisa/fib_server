@@ -13,17 +13,21 @@ import (
 func fibHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	x, err := strconv.Atoi(vars["x"])
+
 	if err != nil {
 		fmt.Fprintf(w, "X parse error")
 		return
 	}
+
 	y, err := strconv.Atoi(vars["y"])
+
 	if err != nil {
 		fmt.Fprintf(w, "Y parse error")
 		return
 	}
 	if x > y {
 		fmt.Fprintf(w, "X must be less than Y")
+		return
 	}
 	response := make([]int, 0, y-x+1)
 	timeStart := time.Now()
