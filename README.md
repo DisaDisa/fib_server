@@ -20,6 +20,7 @@ sudo apt install -y protobuf-compiler
 ```
 # Run
 ```
+go mod download
 go run main.go
 ```
 # Usage
