@@ -16,7 +16,7 @@ sudo apt install memcached
 ```
 (Optional) To build proto files:
 ```
-sudo apt install -y protobuf-compiler
+sudo apt install protobuf-compiler
 ```
 # Run
 ```
@@ -26,6 +26,11 @@ go run main.go
 # Usage
 ```
 http://localhost:8181/get/X-Y where X and Y indexes of fibonacci sequence
+```
+
+# Rebuild proto (from grpcservice folder)
+```
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative grpcservice.proto
 ```
 
 # Todo

@@ -1,16 +1,20 @@
 syntax = "proto3";
 
+option go_package = "github.com/DisaDisa/fib_server.git/grpcservice";
+
 package grpcservice;
 
+
 message Request {
-    string sample = 1;
+    int32 x = 1;
+    int32 y = 2;
 }
 
 message Response {
-    string response = 1;
+    bytes response = 1;
 }
 
 
-service Service {
+service GPRCService {
     rpc Generate(Request) returns (Response) {}
 }

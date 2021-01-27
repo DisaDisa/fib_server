@@ -2,8 +2,10 @@ package httpserver
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/DisaDisa/fib_server.git/fibcalc"
@@ -43,12 +45,15 @@ func fibHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 //CreateServer runs server and handle /get/{x}-{y} request
-func CreateServer() {
+func CreateServer(wg *sync.WaitGroup) {
+	defer wg.Done()
 	router := mux.NewRouter()
 	router.HandleFunc("/get/{x:[0-9]+}-{y:[0-9]+}", fibHandler)
 	http.Handle("/", router)
 
 	fmt.Println("Server is listening...")
-	http.ListenAndServe(":8181", nil)
+	if err := http.ListenAndServe(":8181", nil); err != nil {
+		log.Fatalf("ListenAndServe(): %v", err)
+	}
 
 }
