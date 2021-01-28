@@ -11,10 +11,10 @@ message Request {
 }
 
 message Response {
-    bytes response = 1;
+    repeated int32 response = 1;
 }
 
 
 service GPRCService {
-    rpc Generate(Request) returns (Response) {}
+    rpc fibGRPCHandler(Request) returns (Response) {}
 }

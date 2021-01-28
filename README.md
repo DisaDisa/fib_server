@@ -21,13 +21,16 @@ sudo apt install protobuf-compiler
 # Run
 ```
 go mod download
-go run main.go
+go run main.go (from server folder)
 ```
 # Usage
 ```
 http://localhost:8181/get/X-Y where X and Y indexes of fibonacci sequence
 ```
-
+To test gRPC (client folder):  
+```
+go run main.go X Y
+```
 # Rebuild proto (from grpcservice folder)
 ```
 protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative grpcservice.proto
@@ -35,5 +38,5 @@ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=p
 
 # Todo
 1. Tests
-2. gRPC
-3. Use big.Int
+2. Use big.Int
+3. Refactor

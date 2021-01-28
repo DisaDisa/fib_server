@@ -4,6 +4,7 @@ package grpcservice
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -18,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GPRCServiceClient interface {
-	Generate(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	FibGRPCHandler(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 }
 
 type gPRCServiceClient struct {
@@ -29,9 +30,9 @@ func NewGPRCServiceClient(cc grpc.ClientConnInterface) GPRCServiceClient {
 	return &gPRCServiceClient{cc}
 }
 
-func (c *gPRCServiceClient) Generate(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (c *gPRCServiceClient) FibGRPCHandler(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
-	err := c.cc.Invoke(ctx, "/grpcservice.GPRCService/Generate", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/grpcservice.GPRCService/fibGRPCHandler", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +43,7 @@ func (c *gPRCServiceClient) Generate(ctx context.Context, in *Request, opts ...g
 // All implementations must embed UnimplementedGPRCServiceServer
 // for forward compatibility
 type GPRCServiceServer interface {
-	Generate(context.Context, *Request) (*Response, error)
+	FibGRPCHandler(context.Context, *Request) (*Response, error)
 	mustEmbedUnimplementedGPRCServiceServer()
 }
 
@@ -50,8 +51,8 @@ type GPRCServiceServer interface {
 type UnimplementedGPRCServiceServer struct {
 }
 
-func (UnimplementedGPRCServiceServer) Generate(context.Context, *Request) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Generate not implemented")
+func (UnimplementedGPRCServiceServer) FibGRPCHandler(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FibGRPCHandler not implemented")
 }
 func (UnimplementedGPRCServiceServer) mustEmbedUnimplementedGPRCServiceServer() {}
 
@@ -66,20 +67,20 @@ func RegisterGPRCServiceServer(s grpc.ServiceRegistrar, srv GPRCServiceServer) {
 	s.RegisterService(&GPRCService_ServiceDesc, srv)
 }
 
-func _GPRCService_Generate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GPRCService_FibGRPCHandler_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GPRCServiceServer).Generate(ctx, in)
+		return srv.(GPRCServiceServer).FibGRPCHandler(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcservice.GPRCService/Generate",
+		FullMethod: "/grpcservice.GPRCService/fibGRPCHandler",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GPRCServiceServer).Generate(ctx, req.(*Request))
+		return srv.(GPRCServiceServer).FibGRPCHandler(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -92,8 +93,8 @@ var GPRCService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GPRCServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Generate",
-			Handler:    _GPRCService_Generate_Handler,
+			MethodName: "fibGRPCHandler",
+			Handler:    _GPRCService_FibGRPCHandler_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

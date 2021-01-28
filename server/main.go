@@ -3,8 +3,8 @@ package main
 import (
 	"sync"
 
-	"github.com/DisaDisa/fib_server.git/grpcserver"
-	"github.com/DisaDisa/fib_server.git/httpserver"
+	"github.com/DisaDisa/fib_server.git/server/grpcserver"
+	"github.com/DisaDisa/fib_server.git/server/httpserver"
 )
 
 func main() {

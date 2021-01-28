@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DisaDisa/fib_server.git/fibcalc"
+	"github.com/DisaDisa/fib_server.git/server/fibcalc"
 	"github.com/gorilla/mux"
 )
 
