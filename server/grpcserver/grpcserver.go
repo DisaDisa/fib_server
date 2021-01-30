@@ -7,7 +7,6 @@ import (
 	"log"
 	"net"
 	"sync"
-	"time"
 
 	pb "github.com/DisaDisa/fib_server.git/grpcservice"
 	"github.com/DisaDisa/fib_server.git/server/fibcalc"
@@ -23,21 +22,16 @@ type fibServer struct {
 }
 
 func (s *fibServer) FibGRPCHandler(ctx context.Context, in *pb.Request) (*pb.Response, error) {
-	x, y := in.GetX(), in.GetY()
+	x, y := int(in.GetX()), int(in.GetY())
 	if x > y {
 		return &pb.Response{Response: nil}, errors.New("X must be less than Y")
 	}
-	response := make([]int32, 0, y-x+1)
-	timeStart := time.Now()
-	for i := x; i <= y; i++ {
-		newVal, err := fibcalc.GetFibNimber(int(i))
-		if err != nil {
-			panic(err)
-		}
-		response = append(response, int32(newVal))
+	response := fibcalc.GetFibRange(x, y)
+	response32 := make([]int32, len(response))
+	for _, v := range response {
+		response32 = append(response32, int32(v))
 	}
-	fmt.Println(int(time.Since(timeStart)))
-	return &pb.Response{Response: response}, nil
+	return &pb.Response{Response: response32}, nil
 }
 
 //CreateGRPCService creates gRPC server

@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"sync"
-	"time"
 
 	"github.com/DisaDisa/fib_server.git/server/fibcalc"
 	"github.com/gorilla/mux"
@@ -31,16 +30,7 @@ func fibHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "X must be less than Y")
 		return
 	}
-	response := make([]int, 0, y-x+1)
-	timeStart := time.Now()
-	for i := x; i <= y; i++ {
-		newVal, err := fibcalc.GetFibNimber(i)
-		if err != nil {
-			panic(err)
-		}
-		response = append(response, newVal)
-	}
-	fmt.Println(int(time.Since(timeStart)))
+	response := fibcalc.GetFibRange(x, y)
 	fmt.Fprint(w, response)
 }
 

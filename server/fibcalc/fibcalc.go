@@ -1,52 +1,34 @@
 package fibcalc
 
-import (
-	"errors"
-)
-
-func calcFib(x int) int {
-	if x <= 1 {
-		return x
+//GetFibNimber return range from X-th to Y-th of fibonacci sequence
+func GetFibRange(x, y int) []int {
+	if x > y {
+		x, y = y, x
 	}
-	ch := make(chan int, 2)
-	defer close(ch)
-	go func() {
-		cache := CacheGet()
-		if val, err := cache.GetValue(x - 1); err == nil {
-			ch <- val
-		} else {
-			val := calcFib(x - 1)
-			ch <- val
-			cache.SetValue(x-1, val)
+	sequence := make([]int, y-x+1)
+	prev := 0
+	cur := 1
+	if x == 1 {
+		sequence = append(sequence, 0)
+		if y >= 2 {
+			sequence = append(sequence, 1)
 		}
-	}()
+	}
+	if x == 2 {
+		sequence = append(sequence, 1)
+	}
 
-	go func() {
-		cache := CacheGet()
-		if val, err := cache.GetValue(x - 2); err == nil {
-			ch <- val
+	cache := CacheGet()
+	for i := 3; i <= y; i++ {
+		if val, err := cache.GetValue(i); err == nil {
+			sequence = append(sequence, val)
 		} else {
-			val := calcFib(x - 2)
-			ch <- val
-			cache.SetValue(x-2, val)
+			newVal := cur + prev
+			prev = cur
+			cur = newVal
+			sequence = append(sequence, cur)
+			go cache.SetValue(i, cur)
 		}
-	}()
-
-	return <-ch + <-ch
-}
-
-func calcFibSlow(x int) int {
-	if x <= 1 {
-		return x
 	}
-	return calcFibSlow(x-1) + calcFibSlow(x-2)
-}
-
-//GetFibNimber return n-th number of fibonacci sequence
-func GetFibNimber(x int) (int, error) {
-	if x < 0 {
-		return x, errors.New("Negative value")
-	}
-	return calcFib(x), nil
-
+	return sequence
 }
