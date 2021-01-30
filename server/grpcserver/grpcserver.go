@@ -26,8 +26,15 @@ func (s *fibServer) FibGRPCHandler(ctx context.Context, in *pb.Request) (*pb.Res
 	if x > y {
 		return &pb.Response{Response: nil}, errors.New("X must be less than Y")
 	}
+	if x <= 0 {
+		return &pb.Response{Response: nil}, errors.New("X must be greater than 0")
+	}
+	if y <= 0 {
+		return &pb.Response{Response: nil}, errors.New("Y must be greater than 0")
+	}
+
 	response := fibcalc.GetFibRange(x, y)
-	response32 := make([]int32, len(response))
+	response32 := make([]int32, 0, len(response))
 	for _, v := range response {
 		response32 = append(response32, int32(v))
 	}

@@ -5,7 +5,7 @@ func GetFibRange(x, y int) []int {
 	if x > y {
 		x, y = y, x
 	}
-	sequence := make([]int, y-x+1)
+	sequence := make([]int, 0, y-x+1)
 	prev := 0
 	cur := 1
 	if x == 1 {
