@@ -41,7 +41,7 @@ func CreateServer(wg *sync.WaitGroup) {
 	router.HandleFunc("/get/{x:[0-9]+}-{y:[0-9]+}", fibHandler)
 	http.Handle("/", router)
 
-	fmt.Println("Server is listening...")
+	log.Println("Server is listening...")
 	if err := http.ListenAndServe(":8181", nil); err != nil {
 		log.Fatalf("ListenAndServe(): %v", err)
 	}

@@ -3,7 +3,6 @@ package grpcserver
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net"
 	"sync"
@@ -53,7 +52,7 @@ func CreateGRPCService(wg *sync.WaitGroup) {
 	server := grpc.NewServer()
 	pb.RegisterGPRCServiceServer(server, &fibServer{})
 
-	fmt.Println("gRPC server is listening...")
+	log.Println("gRPC server is listening...")
 	if err = server.Serve(listener); err != nil {
 		log.Fatal("Unable to start server:", err)
 	}

@@ -1,5 +1,7 @@
 package fibcalc
 
+import "fmt"
+
 //GetFibRange return range from X-th to Y-th of fibonacci sequence
 func GetFibRange(x, y int) []int {
 	if x > y {
@@ -11,16 +13,18 @@ func GetFibRange(x, y int) []int {
 	if MaxCalculatedIndex < y {
 		var prev, cur int
 		var err error
-		if prev, err = cache.GetValue(MaxCalculatedIndex); err != nil {
+		if prev, err = cache.GetValue(MaxCalculatedIndex - 1); err != nil {
 			return getFibRangeSlow(x, y)
 		}
-		if cur, err = cache.GetValue(MaxCalculatedIndex - 1); err != nil {
+		if cur, err = cache.GetValue(MaxCalculatedIndex); err != nil {
 			return getFibRangeSlow(x, y)
 		}
 		for i := MaxCalculatedIndex + 1; i <= y; i++ {
+			fmt.Println("FibCalc", prev, cur)
 			newVal := cur + prev
 			prev = cur
 			cur = newVal
+
 			if err = cache.SetValue(i, cur); err != nil {
 				return getFibRangeSlow(x, y)
 			}
