@@ -1,7 +1,6 @@
 package fibcalc
 
 import (
-	"fmt"
 	"strconv"
 	"sync"
 
@@ -66,7 +65,6 @@ func (cache *cache) SetValue(index, value int) error {
 	if err := cache.client.Set(&setItem); err != nil {
 		return err
 	}
-	fmt.Println(index, value)
 	if MaxCalculatedIndex < index {
 		MaxCalculatedIndex = index
 	}
