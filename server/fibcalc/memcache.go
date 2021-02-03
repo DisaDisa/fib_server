@@ -13,8 +13,9 @@ const (
 
 //Cache to access sigltone memcache
 var (
-	Cache *cache
-	once  sync.Once
+	Cache              *cache
+	once               sync.Once
+	MaxCalculatedIndex int
 )
 
 //CacheGet get singletone memcahce
@@ -22,6 +23,9 @@ func CacheGet() *cache {
 	once.Do(func() {
 		Cache = new(cache)
 		Cache.CreateMemcache()
+		Cache.SetValue(1, 0)
+		Cache.SetValue(2, 1)
+		MaxCalculatedIndex = 2
 	})
 	return Cache
 }
@@ -58,6 +62,11 @@ func (cache *cache) SetValue(index, value int) error {
 	setItem := memcache.Item{
 		Key:   strconv.Itoa(index),
 		Value: bs}
-
-	return cache.client.Set(&setItem)
+	if err := cache.client.Set(&setItem); err != nil {
+		return err
+	}
+	if MaxCalculatedIndex < index {
+		MaxCalculatedIndex = index
+	}
+	return nil
 }
