@@ -21,7 +21,9 @@ func GetFibRange(x, y int) []int {
 			newVal := cur + prev
 			prev = cur
 			cur = newVal
-			cache.SetValue(i, cur)
+			if err = cache.SetValue(i, cur); err != nil {
+				return getFibRangeSlow(x, y)
+			}
 		}
 	}
 	for i := x; i <= y; i++ {
